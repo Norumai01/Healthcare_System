@@ -12,14 +12,10 @@ import java.util.Scanner;
 
 public class AppointmentMenu {
     private final AppointmentService appointmentService;
-    private final PatientService patientService;
-    private final DoctorService doctorService;
     private final Scanner scanner;
 
-    public AppointmentMenu(AppointmentService appointmentService, PatientService patientService, DoctorService doctorService, Scanner scanner) {
+    public AppointmentMenu(AppointmentService appointmentService, Scanner scanner) {
         this.appointmentService = appointmentService;
-        this.patientService = patientService;
-        this.doctorService = doctorService;
         this.scanner = scanner;
     }
 
