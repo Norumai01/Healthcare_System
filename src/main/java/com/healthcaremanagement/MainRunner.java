@@ -1,8 +1,14 @@
 package com.healthcaremanagement;
 
-import com.healthcaremanagement.menu.*;
-import com.healthcaremanagement.service.*;
-import com.healthcaremanagement.repository.*;
+import com.healthcaremanagement.menu.AppointmentMenu;
+import com.healthcaremanagement.menu.DoctorMenu;
+import com.healthcaremanagement.menu.PatientMenu;
+import com.healthcaremanagement.repository.AppointmentRepositoryImpl;
+import com.healthcaremanagement.repository.DoctorRepositoryImpl;
+import com.healthcaremanagement.repository.PatientRepositoryImpl;
+import com.healthcaremanagement.service.AppointmentService;
+import com.healthcaremanagement.service.DoctorService;
+import com.healthcaremanagement.service.PatientService;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
@@ -17,7 +23,7 @@ public class MainRunner {
         Scanner scanner = new Scanner(System.in);
 
         // Menu for each operation.
-        AppointmentMenu appointmentOps = new AppointmentMenu(appointmentService, scanner);
+        AppointmentMenu appointmentOps = new AppointmentMenu(appointmentService, patientService, doctorService, scanner);
         DoctorMenu doctorOps = new DoctorMenu(doctorService, scanner);
         PatientMenu patientOps = new PatientMenu(patientService, scanner);
 

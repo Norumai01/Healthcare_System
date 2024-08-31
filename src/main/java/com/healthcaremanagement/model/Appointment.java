@@ -1,9 +1,16 @@
 package com.healthcaremanagement.model;
 
 import jakarta.persistence.*;
+import lombok.*;
+
+import java.util.Objects;
 
 @Entity
 @Table(name = "Appointments")
+@Getter
+@Setter
+@NoArgsConstructor
+@ToString(exclude = {"patient", "doctor"})
 public class Appointment {
 
     @Id
@@ -11,11 +18,13 @@ public class Appointment {
     @Column(name = "AppointmentID")
     private int appointmentID;
 
-    @Column(name = "PatientID")
-    private int patientID;
+    @ManyToOne
+    @JoinColumn(name = "PatientID")
+    private Patient patient;
 
-    @Column(name = "DoctorID")
-    private int doctorID;
+    @ManyToOne
+    @JoinColumn(name = "DoctorID")
+    private Doctor doctor;
 
     @Column(name = "AppointmentDate")
     private String appointmentDate;
@@ -23,63 +32,16 @@ public class Appointment {
     @Column(name = "Notes")
     private String notes;
 
-    public Appointment() {}
-
-    public Appointment(int patientID, int doctorID, String appointmentDate, String notes) {
-        this.patientID = patientID;
-        this.doctorID = doctorID;
-        this.appointmentDate = appointmentDate;
-        this.notes = notes;
-    }
-
-    public int getAppointmentID() {
-        return appointmentID;
-    }
-
-    public void setAppointmentID(int appointmentID) {
-        this.appointmentID = appointmentID;
-    }
-
-    public int getPatientID() {
-        return patientID;
-    }
-
-    public void setPatientID(int patientID) {
-        this.patientID = patientID;
-    }
-
-    public int getDoctorID() {
-        return doctorID;
-    }
-
-    public void setDoctorID(int doctorID) {
-        this.doctorID = doctorID;
-    }
-
-    public String getAppointmentDate() {
-        return appointmentDate;
-    }
-
-    public void setAppointmentDate(String appointmentDate) {
-        this.appointmentDate = appointmentDate;
-    }
-
-    public String getNotes() {
-        return notes;
-    }
-
-    public void setNotes(String notes) {
-        this.notes = notes;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Appointment that = (Appointment) o;
+        return appointmentID == that.appointmentID;
     }
 
     @Override
-    public String toString() {
-        return "Appointment{" +
-                "appointmentID=" + appointmentID +
-                ", patientID=" + patientID +
-                ", doctorID=" + doctorID +
-                ", appointmentDate='" + appointmentDate + '\'' +
-                ", notes='" + notes + '\'' +
-                '}';
+    public int hashCode() {
+        return Objects.hash(appointmentID);
     }
 }

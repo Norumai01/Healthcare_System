@@ -1,9 +1,18 @@
 package com.healthcaremanagement.model;
 
 import jakarta.persistence.*;
+import lombok.*;
+
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "Doctors")
+@Getter
+@Setter
+@NoArgsConstructor
+@ToString(exclude = {"patients", "appointments"})
 public class Doctor {
 
     @Id
@@ -23,63 +32,28 @@ public class Doctor {
     @Column(name = "Email")
     private String email;
 
-    public Doctor() {}
+    // Figure out a way to display without FetchType.EAGER, if not excluded.
+    @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<Appointment> appointments = new HashSet<>();
 
-    public Doctor(String firstName, String lastName, String specialty, String email) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.specialty = specialty;
-        this.email = email;
-    }
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "Doctor_Patient",
+            joinColumns = @JoinColumn(name = "DoctorID"),
+            inverseJoinColumns = @JoinColumn(name = "PatientID")
+    )
+    private Set<Patient> patients = new HashSet<>();
 
-    public int getDoctorID() {
-        return doctorID;
-    }
-
-    public void setDoctorID(int doctorID) {
-        this.doctorID = doctorID;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getSpecialty() {
-        return specialty;
-    }
-
-    public void setSpecialty(String specialty) {
-        this.specialty = specialty;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Doctor doctor = (Doctor) o;
+        return doctorID == doctor.doctorID;
     }
 
     @Override
-    public String toString() {
-        return "Doctor{" +
-                "doctorID=" + doctorID +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", specialty='" + specialty + '\'' +
-                ", email='" + email + '\'' +
-                '}';
+    public int hashCode() {
+        return Objects.hash(doctorID);
     }
 }
