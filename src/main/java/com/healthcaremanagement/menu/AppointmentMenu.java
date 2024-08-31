@@ -1,7 +1,11 @@
 package com.healthcaremanagement.menu;
 
 import com.healthcaremanagement.model.Appointment;
+import com.healthcaremanagement.model.Doctor;
+import com.healthcaremanagement.model.Patient;
 import com.healthcaremanagement.service.AppointmentService;
+import com.healthcaremanagement.service.DoctorService;
+import com.healthcaremanagement.service.PatientService;
 
 import java.util.List;
 import java.util.Scanner;
@@ -53,9 +57,15 @@ public class AppointmentMenu {
     private void createAppointment() {
         Appointment newAppointment = new Appointment();
         System.out.print("Enter patient ID: ");
-        newAppointment.setPatientID(getValidInput(1, Integer.MAX_VALUE));
+        int patientID = getValidInput(1, Integer.MAX_VALUE);
+        Patient patient = new Patient();
+        patient.setPatientId(patientID);
+        newAppointment.setPatient(patient);
         System.out.print("Enter doctor ID: ");
-        newAppointment.setDoctorID(getValidInput(1, Integer.MAX_VALUE));
+        int doctorID = getValidInput(1, Integer.MAX_VALUE);
+        Doctor doctor  = new Doctor();
+        doctor.setDoctorID(doctorID);
+        newAppointment.setDoctor(doctor);
         System.out.print("Enter appointment date (YYYY-MM-DD): ");
         newAppointment.setAppointmentDate(scanner.nextLine());
         System.out.print("Enter notes: ");
@@ -81,9 +91,15 @@ public class AppointmentMenu {
         Appointment appointment = appointmentService.getAppointment(appointmentId);
         if (appointment != null) {
             System.out.print("Enter new patient ID: ");
-            appointment.setPatientID(getValidInput(1, Integer.MAX_VALUE));
+            int patientID = getValidInput(1, Integer.MAX_VALUE);
+            Patient patient = new Patient();
+            patient.setPatientId(patientID);
+            appointment.setPatient(patient);
             System.out.print("Enter new doctor ID: ");
-            appointment.setDoctorID(getValidInput(1, Integer.MAX_VALUE));
+            int doctorID = getValidInput(1, Integer.MAX_VALUE);
+            Doctor doctor  = new Doctor();
+            doctor.setDoctorID(doctorID);
+            appointment.setDoctor(doctor);
             System.out.print("Enter new appointment date (YYYY-MM-DD): ");
             appointment.setAppointmentDate(scanner.nextLine());
             System.out.print("Enter new notes: ");

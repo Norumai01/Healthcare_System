@@ -1,8 +1,17 @@
 package com.healthcaremanagement;
 
-import com.healthcaremanagement.menu.*;
-import com.healthcaremanagement.service.*;
-import com.healthcaremanagement.repository.*;
+import com.healthcaremanagement.menu.AppointmentMenu;
+import com.healthcaremanagement.menu.DoctorMenu;
+import com.healthcaremanagement.menu.OfficeMenu;
+import com.healthcaremanagement.menu.PatientMenu;
+import com.healthcaremanagement.repository.AppointmentRepositoryImpl;
+import com.healthcaremanagement.repository.DoctorRepositoryImpl;
+import com.healthcaremanagement.repository.OfficeRepositoryImpl;
+import com.healthcaremanagement.repository.PatientRepositoryImpl;
+import com.healthcaremanagement.service.AppointmentService;
+import com.healthcaremanagement.service.DoctorService;
+import com.healthcaremanagement.service.OfficeService;
+import com.healthcaremanagement.service.PatientService;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
@@ -14,22 +23,25 @@ public class MainRunner {
         PatientService patientService = new PatientService(new PatientRepositoryImpl(sessionFactory));
         DoctorService doctorService = new DoctorService(new DoctorRepositoryImpl(sessionFactory));
         AppointmentService appointmentService = new AppointmentService(new AppointmentRepositoryImpl(sessionFactory));
+        OfficeService officeService = new OfficeService(new OfficeRepositoryImpl(sessionFactory));
         Scanner scanner = new Scanner(System.in);
 
         // Menu for each operation.
         AppointmentMenu appointmentOps = new AppointmentMenu(appointmentService, scanner);
         DoctorMenu doctorOps = new DoctorMenu(doctorService, scanner);
         PatientMenu patientOps = new PatientMenu(patientService, scanner);
+        OfficeMenu officeOps = new OfficeMenu(officeService, doctorService, scanner);
 
         while (true) {
             System.out.println("\n--- Healthcare Management System ---");
             System.out.println("1. Patient Operations");
             System.out.println("2. Doctor Operations");
             System.out.println("3. Appointment Operations");
-            System.out.println("4. Exit");
+            System.out.println("4. Office Operations");
+            System.out.println("5. Exit");
             System.out.print("Enter your choice: ");
 
-            int choice = getValidInput(scanner, 1, 4);
+            int choice = getValidInput(scanner, 1, 5);
 
             switch (choice) {
                 case 1:
@@ -42,6 +54,9 @@ public class MainRunner {
                     appointmentOps.handleAppointmentOperations();
                     break;
                 case 4:
+                    officeOps.handleOfficeOperations();
+                    break;
+                case 5:
                     System.out.println("Exiting the system. Goodbye!");
                     scanner.close();
                     return;
