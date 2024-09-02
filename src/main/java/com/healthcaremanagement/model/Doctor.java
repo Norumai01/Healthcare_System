@@ -44,6 +44,9 @@ public class Doctor {
     )
     private Set<Patient> patients = new HashSet<>();
 
+    @OneToOne(mappedBy = "doctor", cascade = CascadeType.ALL)
+    private Office office;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
