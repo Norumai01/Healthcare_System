@@ -27,7 +27,7 @@ public class Office {
     @Column(name = "Phone")
     private String phoneNumber;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "DoctorID")
     private Doctor doctor;
 
