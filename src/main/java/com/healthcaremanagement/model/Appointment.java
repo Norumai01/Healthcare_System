@@ -18,11 +18,11 @@ public class Appointment {
     @Column(name = "AppointmentID")
     private int appointmentID;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "PatientID")
     private Patient patient;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "DoctorID")
     private Doctor doctor;
 
